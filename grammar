@@ -11,7 +11,7 @@ IDENT       := [a-zA-Z_][a-zA-Z0-9_]*
 
 ITEM        := FUNCTION | STRUCT | MODULE | CONSTANT | ENUM
 
-FUNCTION    := fn IDENT (ARG,*) -> IDENT { STATEMENT* }
+FUNCTION    := fn IDENT (ARG,*) (-> IDENT)? { STATEMENT* }
 
 ARG         := IDENT : IDENT
 
@@ -30,3 +30,33 @@ EXPR        := # expression
 STATEMENT   := BINDING | EXPR ;
 
 BINDING     := let IDENT (: IDENT)? = EXPR
+
+
+##### Sample program
+
+import math;
+import std::io::print;
+
+struct Int {
+    num: i32
+}
+
+enum IntOrNothing {
+    Int(Int),
+    Nothing
+}
+
+fn div(a: i32, b: i32) -> IntOrNothing {
+    if b == 0 {
+        return IntOrNothing::Nothing;
+    } else {
+        return IntOrNothing::Int(Int { num: a / b });
+    }
+}
+
+fn main() {
+    let a = 10;
+    let b = 5;
+    let res = div(a, b);
+    print(res);
+}
