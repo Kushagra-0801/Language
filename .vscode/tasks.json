@@ -9,6 +9,7 @@
 				"-Wall",
 				"-Werror",
 				"-Wpedantic",
+				"-std=c++17",
 				"-g",
 				"src/*",
 				"-o",
