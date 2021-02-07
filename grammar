@@ -13,20 +13,20 @@ ITEM        := FUNCTION | STRUCT | MODULE | CONSTANT | ENUM
 
 FUNCTION    := fn IDENT (ARG,*) -> IDENT { STATEMENT* }
 
-ARG         := IDENT : IDENT
+ARG         := IDENT : PATH
 
 STRUCT      := struct IDENT { ARG,* }
 
 MODULE      := mod IDENT { PROGRAM }
 
-CONSTANT    := const IDENT : IDENT = EXPR
+CONSTANT    := const IDENT : PATH = EXPR
 
 ENUM        := enum IDENT { VARIANT* }
 
-VARIANT     := IDENT | IDENT (IDENT)
+VARIANT     := IDENT | IDENT (PATH)
 
 EXPR        := # expression
 
 STATEMENT   := BINDING | EXPR ;
 
-BINDING     := let IDENT (: IDENT)? = EXPR
+BINDING     := let IDENT (: PATH)? = EXPR
