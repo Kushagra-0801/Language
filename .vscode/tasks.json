@@ -13,7 +13,7 @@
 				"-g",
 				"src/*",
 				"-o",
-				"main"
+				"target/main"
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"

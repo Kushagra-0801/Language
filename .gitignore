@@ -43,6 +43,9 @@
 *.app
 main
 
+# Build Directory
+target/*
+
 ### vscode ###
 .vscode/*
 !.vscode/settings.json
