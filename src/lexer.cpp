@@ -1,13 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const unordered_map<const string, int> KEYWORDS{
+const unordered_map<string, int> KEYWORDS{
     {"if", 0},     {"else", 1},   {"import", 2},    {"fn", 3},
     {"struct", 4}, {"let", 5},    {"mod", 6},       {"const", 7},
     {"enum", 8},   {"return", 9}, {"while", 10},    {"for", 11},
     {"in", 12},    {"break", 13}, {"continue", 14}, {"print", 15}};
 
-const unordered_map<const string, int> SYMBOLS{
+const unordered_map<string, int> SYMBOLS{
     {"+", 0},  {"-", 1},   {"*", 2},   {"/", 3},   {":", 4},   {".", 5},
     {";", 6},  {"::", 7},  {"==", 8},  {"+=", 9},  {"-=", 10}, {"*=", 11},
     {"=", 12}, {"/=", 13}, {"|", 14},  {"||", 15}, {"&", 16},  {"&&", 17},
@@ -62,7 +62,7 @@ class Lexer {
  public:
   string file_contents;
   vector<Token> tokens;
-  int idx;
+  size_t idx;
   int line;
 
   char peek() { return file_contents[idx]; }
@@ -99,7 +99,7 @@ class Lexer {
   void lexString() {
     string s;
     auto l = line;
-    int i;
+    size_t i;
     for (i = idx + 1; i < file_contents.size() - 1; i++) {
       char c = file_contents[i];
       if (c == '"') {
