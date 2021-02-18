@@ -23,7 +23,9 @@ int main(int argc, char *argv[]) {
 
   Lexer lexer(contents);
 
-  cout << lexer.file_contents << endl;
+  lexer.lex();
+  for (auto token: lexer.tokens) {
+    cout << token->to_str() << endl;
+  }
   return 0;
 }
- 
