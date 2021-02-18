@@ -7,6 +7,8 @@ const unordered_map<string, int> KEYWORDS{
     {"enum", 8},   {"return", 9}, {"while", 10},    {"for", 11},
     {"in", 12},    {"break", 13}, {"continue", 14}, {"print", 15}};
 
+const string REVERSE_KEYWORD[] = {"if", "else", "import", "fn", "struct", "let", "mod", "const", "enum", "return", "while", "for", "in", "break", "continue", "print"};
+
 const unordered_map<string, int> SYMBOLS{
     {"+", 0},  {"-", 1},   {"*", 2},   {"/", 3},   {":", 4},   {".", 5},
     {";", 6},  {"::", 7},  {"==", 8},  {"+=", 9},  {"-=", 10}, {"*=", 11},
@@ -21,6 +23,9 @@ class Token {
   int line;
   Token() = delete;
   Token(int line) { this->line = line; }
+  virtual string to_str() {
+    return "Token {line: something}";
+  }
 };
 
 class Keyword : public Token {
@@ -28,6 +33,12 @@ class Keyword : public Token {
 
  public:
   Keyword(int line, int id) : Token(line) { this->id = id; }
+  string to_str() {
+    string v = REVERSE_KEYWORD[id];
+    stringstream s;
+    s << "Keyword {line: " << line << ", value: \"" << v << "\"}";
+    return s.str();
+  }
 };
 
 class Identifier : public Token {
@@ -35,6 +46,11 @@ class Identifier : public Token {
 
  public:
   Identifier(int line, string val) : Token(line) { this->value = val; }
+  string to_str() {
+    stringstream s;
+    s << "Identifier {line: " << line << ", value: \"" << value << "\"}";
+    return s.str();
+  }
 };
 
 class Literal : public Token {
@@ -42,6 +58,11 @@ class Literal : public Token {
 
  public:
   Literal(int line, string val) : Token(line) { this->value = val; }
+  string to_str() {
+    stringstream s;
+    s << "Literal {line: " << line << ", value: " << value << "}";
+    return s.str();
+  }
 };
 
 class Symbol : public Token {
@@ -49,6 +70,18 @@ class Symbol : public Token {
 
  public:
   Symbol(int line, int id) : Token(line) { this->id = id; }
+  string to_str() {
+    string v;
+    for (auto &[s, i] : SYMBOLS) {
+      if (id == i) {
+        v = s;
+        break;
+      }
+    }
+    stringstream s;
+    s << "Symbol {line: " << line << ", value: \"" << v << "\"}";
+    return s.str();
+  };
 };
 
 class Invalid : public Token {
@@ -56,13 +89,18 @@ class Invalid : public Token {
 
  public:
   Invalid(int line, string details) : Token(line) { this->details = details; }
+  string to_str() {
+    stringstream s;
+    s << "Invalid {line: " << line << ", error: " << details << "}";
+    return s.str();
+  }
 };
 
 class Lexer {
  public:
   string file_contents;
-  vector<Token> tokens;
-  size_t idx;
+  vector<Token*> tokens;
+  size_t idx = 0;
   int line;
 
   char peek() { return file_contents[idx]; }
@@ -82,9 +120,9 @@ class Lexer {
     }
     string word(file_contents.begin() + idx, file_contents.begin() + end);
     if (auto id = KEYWORDS.find(word); id != KEYWORDS.end()) {
-      tokens.push_back(Keyword(line, id->second));
+      tokens.push_back(new Keyword(line, id->second));
     } else {
-      tokens.push_back(Identifier(line, word));
+      tokens.push_back(new Identifier(line, word));
     }
     idx = end;
   }
@@ -92,7 +130,7 @@ class Lexer {
   void lexNumber() {
     size_t end;
     stod(file_contents.substr(idx), &end);
-    tokens.push_back(Literal(line, file_contents.substr(idx, end)));
+    tokens.push_back(new Literal(line, file_contents.substr(idx, end)));
     idx += end;
   }
 
@@ -115,7 +153,7 @@ class Lexer {
         } else if (c == 'r') {
           s.push_back('\r');
         } else {
-          tokens.push_back(Invalid(line, "Invalid escape code"));
+          tokens.push_back(new Invalid(line, "Invalid escape code"));
           idx = i;
           while (idx < file_contents.size() &&
                  (file_contents[idx] != '\n' || file_contents[idx] != '"'))
@@ -128,9 +166,9 @@ class Lexer {
       }
     }
     if (file_contents[i] == '"') {
-      tokens.push_back(Literal(l, s));
+      tokens.push_back(new Literal(l, s));
     } else {
-      tokens.push_back(Invalid(l, "Unterminated string"));
+      tokens.push_back(new Invalid(l, "Unterminated string"));
     }
     idx = i + 1;
   }
@@ -141,10 +179,10 @@ class Lexer {
       if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch == '_' ||
           (ch >= '0' && ch <= '9') || ch == ' ') {
         if (file_contents[idx + 2] == '\'') {
-          tokens.push_back(Literal(line, file_contents.substr(idx, 3)));
+          tokens.push_back(new Literal(line, file_contents.substr(idx, 3)));
           idx += 3;
         } else {
-          tokens.push_back(Invalid(line, "Unterminated character literal"));
+          tokens.push_back(new Invalid(line, "Unterminated character literal"));
         }
       } else if (ch == '\\' && idx + 3 < file_contents.size()) {
         ch = file_contents[idx + 2];
@@ -153,27 +191,27 @@ class Lexer {
             case 'n':
             case 'r':
             case 't':
-              tokens.push_back(Literal(line, file_contents.substr(idx, 4)));
+              tokens.push_back(new Literal(line, file_contents.substr(idx, 4)));
               idx += 4;
               break;
             default:
-              tokens.push_back(Invalid(line, "Unknown escape code"));
+              tokens.push_back(new Invalid(line, "Unknown escape code"));
           }
         } else {
-          tokens.push_back(Invalid(line, "Unterminated character literal"));
+          tokens.push_back(new Invalid(line, "Unterminated character literal"));
         }
       } else {
-        tokens.push_back(Invalid(line, "Charcater outside normal ascii"));
+        tokens.push_back(new Invalid(line, "Charcater outside normal ascii"));
       }
     } else {
-      tokens.push_back(Invalid(line, "Unterminated character literal"));
+      tokens.push_back(new Invalid(line, "Unterminated character literal"));
     }
   }
 
   void lexSymbol() {
     auto search = [this](string s) {
       if (auto it = SYMBOLS.find(s); it != SYMBOLS.end()) {
-        tokens.push_back(Symbol(line, it->second));
+        tokens.push_back(new Symbol(line, it->second));
         idx += s.size();
         return true;
       } else {
@@ -185,14 +223,14 @@ class Lexer {
       if (!search(sym)) {
         auto sym = file_contents.substr(idx, 1);
         if (!search(sym)) {
-          tokens.push_back(Invalid(line, "Unknown Symbol"));
+          tokens.push_back(new Invalid(line, "Unknown Symbol"));
           idx += 1;
         }
       }
     } else {
       auto sym = file_contents.substr(idx, 1);
       if (!search(sym)) {
-        tokens.push_back(Invalid(line, "Unknown Symbol"));
+        tokens.push_back(new Invalid(line, "Unknown Symbol"));
         idx += 1;
       }
     }
