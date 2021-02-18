@@ -7,7 +7,9 @@ const unordered_map<string, int> KEYWORDS{
     {"enum", 8},   {"return", 9}, {"while", 10},    {"for", 11},
     {"in", 12},    {"break", 13}, {"continue", 14}, {"print", 15}};
 
-const string REVERSE_KEYWORD[] = {"if", "else", "import", "fn", "struct", "let", "mod", "const", "enum", "return", "while", "for", "in", "break", "continue", "print"};
+const string REVERSE_KEYWORD[] = {
+    "if",   "else",   "import", "fn",  "struct", "let",   "mod",      "const",
+    "enum", "return", "while",  "for", "in",     "break", "continue", "print"};
 
 const unordered_map<string, int> SYMBOLS{
     {"+", 0},  {"-", 1},   {"*", 2},   {"/", 3},   {":", 4},   {".", 5},
@@ -23,9 +25,7 @@ class Token {
   int line;
   Token() = delete;
   Token(int line) { this->line = line; }
-  virtual string to_str() {
-    return "Token {line: something}";
-  }
+  virtual string to_str() { return "Token {line: something}"; }
 };
 
 class Keyword : public Token {
@@ -99,7 +99,7 @@ class Invalid : public Token {
 class Lexer {
  public:
   string file_contents;
-  vector<Token*> tokens;
+  vector<Token *> tokens;
   size_t idx = 0;
   int line;
 
@@ -144,6 +144,7 @@ class Lexer {
         break;
       } else if (c == '\n') {
         line += 1;
+        s.push_back('\n');
       } else if (c == '\\') {
         c = file_contents[++i];
         if (c == 'n') {
