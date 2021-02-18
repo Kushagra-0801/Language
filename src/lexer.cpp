@@ -7,10 +7,6 @@ const unordered_map<string, int> KEYWORDS{
     {"enum", 8},   {"return", 9}, {"while", 10},    {"for", 11},
     {"in", 12},    {"break", 13}, {"continue", 14}, {"print", 15}};
 
-const string REVERSE_KEYWORD[] = {
-    "if",   "else",   "import", "fn",  "struct", "let",   "mod",      "const",
-    "enum", "return", "while",  "for", "in",     "break", "continue", "print"};
-
 const unordered_map<string, int> SYMBOLS{
     {"+", 0},  {"-", 1},   {"*", 2},   {"/", 3},   {":", 4},   {".", 5},
     {";", 6},  {"::", 7},  {"==", 8},  {"+=", 9},  {"-=", 10}, {"*=", 11},
@@ -34,7 +30,13 @@ class Keyword : public Token {
  public:
   Keyword(int line, int id) : Token(line) { this->id = id; }
   string to_str() {
-    string v = REVERSE_KEYWORD[id];
+    string v;
+    for (auto &[s, i] : KEYWORDS) {
+      if (id == i) {
+        v = s;
+        break;
+      }
+    }
     stringstream s;
     s << "Keyword {line: " << line << ", value: \"" << v << "\"}";
     return s.str();
