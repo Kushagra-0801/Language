@@ -1,0 +1,11 @@
+# sample program
+import math;
+
+fn main() {
+    let c = ''
+    let err1 = '\f'
+    let t = '\t'
+    let n = '\n'
+    let err2 = 'abc'
+    let emoji = '😊'
+}

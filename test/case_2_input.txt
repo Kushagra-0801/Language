@@ -1,0 +1,13 @@
+# sample program
+import math;
+
+fn main() {
+    let s = "<HTML>
+    <BODY>
+    Hello world
+    </BODY>
+</HTML>" ;
+    @gmail.com
+    let incorrect_string = "Hello
+    print(res);
+}

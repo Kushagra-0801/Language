@@ -7,6 +7,10 @@ const unordered_map<string, int> KEYWORDS{
     {"enum", 8},   {"return", 9}, {"while", 10},    {"for", 11},
     {"in", 12},    {"break", 13}, {"continue", 14}, {"print", 15}};
 
+const string REVERSE_KEYWORD[] = {
+    "if",   "else",   "import", "fn",  "struct", "let",   "mod",      "const",
+    "enum", "return", "while",  "for", "in",     "break", "continue", "print"};
+
 const unordered_map<string, int> SYMBOLS{
     {"+", 0},  {"-", 1},   {"*", 2},   {"/", 3},   {":", 4},   {".", 5},
     {";", 6},  {"::", 7},  {"==", 8},  {"+=", 9},  {"-=", 10}, {"*=", 11},
@@ -25,18 +29,11 @@ class Token {
 };
 
 class Keyword : public Token {
-  int id;
-
- public:
-  Keyword(int line, int id) : Token(line) { this->id = id; }
+  public:
+  int val;
+  Keyword(int line, int id) : Token(line) { this->val = id; }
   string to_str() {
-    string v;
-    for (auto &[s, i] : KEYWORDS) {
-      if (id == i) {
-        v = s;
-        break;
-      }
-    }
+    string v = REVERSE_KEYWORD[val];
     stringstream s;
     s << "Keyword {line: " << line << ", value: \"" << v << "\"}";
     return s.str();
@@ -44,38 +41,38 @@ class Keyword : public Token {
 };
 
 class Identifier : public Token {
-  string value;
-
  public:
-  Identifier(int line, string val) : Token(line) { this->value = val; }
+  string val;
+
+  Identifier(int line, string val) : Token(line) { this->val = val; }
   string to_str() {
     stringstream s;
-    s << "Identifier {line: " << line << ", value: \"" << value << "\"}";
+    s << "Identifier {line: " << line << ", value: \"" << val << "\"}";
     return s.str();
   }
 };
 
 class Literal : public Token {
-  string value;
-
  public:
-  Literal(int line, string val) : Token(line) { this->value = val; }
+  string val;
+
+  Literal(int line, string val) : Token(line) { this->val = val; }
   string to_str() {
     stringstream s;
-    s << "Literal {line: " << line << ", value: " << value << "}";
+    s << "Literal {line: " << line << ", value: " << val << "}";
     return s.str();
   }
 };
 
 class Symbol : public Token {
-  int id;
-
  public:
-  Symbol(int line, int id) : Token(line) { this->id = id; }
+  int val;
+
+  Symbol(int line, int val) : Token(line) { this->val = val; }
   string to_str() {
     string v;
     for (auto &[s, i] : SYMBOLS) {
-      if (id == i) {
+      if (val == i) {
         v = s;
         break;
       }
@@ -87,13 +84,13 @@ class Symbol : public Token {
 };
 
 class Invalid : public Token {
-  string details;
-
  public:
-  Invalid(int line, string details) : Token(line) { this->details = details; }
+  string val;
+
+  Invalid(int line, string details) : Token(line) { this->val = details; }
   string to_str() {
     stringstream s;
-    s << "Invalid {line: " << line << ", error: " << details << "}";
+    s << "Invalid {line: " << line << ", error: " << val << "}";
     return s.str();
   }
 };
@@ -179,15 +176,16 @@ class Lexer {
   void lexChar() {
     if (idx + 2 < file_contents.size()) {
       char ch = file_contents[idx + 1];
-      if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch == '_' ||
-          (ch >= '0' && ch <= '9') || ch == ' ') {
+      if (isgraph(ch)) {
         if (file_contents[idx + 2] == '\'') {
           tokens.push_back(new Literal(line, file_contents.substr(idx, 3)));
           idx += 3;
         } else {
           tokens.push_back(new Invalid(line, "Unterminated character literal"));
         }
-      } else if (ch == '\\' && idx + 3 < file_contents.size()) {
+        return;
+      } 
+       if (ch == '\\' && idx + 3 < file_contents.size()) {
         ch = file_contents[idx + 2];
         if (file_contents[idx + 3] == '\'') {
           switch (ch) {

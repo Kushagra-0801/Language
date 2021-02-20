@@ -36,39 +36,3 @@ STATEMENT   := BINDING | EXPR ;
 
 BINDING     := let IDENT (: PATH)? = EXPR
 
-
-##### Sample program
-
-import math;
-import std::io::print;
-
-struct Int {
-    num: i32
-}
-
-enum IntOrNothing {
-    Int(Int),
-    Nothing
-}
-
-fn div(a: i32, b: i32) -> IntOrNothing {
-    if b == 0 {
-        return IntOrNothing::Nothing;
-    } else {
-        return IntOrNothing::Int(Int { num: a / b });
-    }
-}
-
-fn array(a: &[i32]) {
-    a[3] = 5;
-}
-
-fn main() {
-    let a = 10;
-    let b = 5;
-    let res = div(a, b);
-    let arr = [4, 5, 6, 7, 8, 9];
-    array(&arr);
-    # arr = [4, 5, 6, 5, 8, 9]
-    print(res);
-}

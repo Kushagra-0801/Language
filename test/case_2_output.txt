@@ -1,0 +1,25 @@
+Keyword {line: 2, value: "import"}
+Identifier {line: 2, value: "math"}
+Symbol {line: 2, value: ";"}
+Keyword {line: 4, value: "fn"}
+Identifier {line: 4, value: "main"}
+Symbol {line: 4, value: "("}
+Symbol {line: 4, value: ")"}
+Symbol {line: 4, value: "{"}
+Keyword {line: 5, value: "let"}
+Identifier {line: 5, value: "s"}
+Symbol {line: 5, value: "="}
+Literal {line: 5, value: <HTML>
+    <BODY>
+    Hello world
+    </BODY>
+</HTML>}
+Symbol {line: 9, value: ";"}
+Invalid {line: 10, error: Unknown Symbol}
+Identifier {line: 10, value: "gmail"}
+Symbol {line: 10, value: "."}
+Identifier {line: 10, value: "com"}
+Keyword {line: 11, value: "let"}
+Identifier {line: 11, value: "incorrect_string"}
+Symbol {line: 11, value: "="}
+Invalid {line: 11, error: Unterminated string}
