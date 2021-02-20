@@ -1,0 +1,34 @@
+Keyword {line: 2, value: "import"}
+Identifier {line: 2, value: "math"}
+Symbol {line: 2, value: ";"}
+Keyword {line: 4, value: "fn"}
+Identifier {line: 4, value: "main"}
+Symbol {line: 4, value: "("}
+Symbol {line: 4, value: ")"}
+Symbol {line: 4, value: "{"}
+Keyword {line: 5, value: "let"}
+Identifier {line: 5, value: "c"}
+Symbol {line: 5, value: "="}
+Invalid {line: 5, error: Empty Character Literal}
+Keyword {line: 6, value: "let"}
+Identifier {line: 6, value: "err1"}
+Symbol {line: 6, value: "="}
+Invalid {line: 6, error: Unknown escape code}
+Keyword {line: 7, value: "let"}
+Identifier {line: 7, value: "t"}
+Symbol {line: 7, value: "="}
+Literal {line: 7, value: '\t'}
+Keyword {line: 8, value: "let"}
+Identifier {line: 8, value: "n"}
+Symbol {line: 8, value: "="}
+Literal {line: 8, value: '\n'}
+Keyword {line: 9, value: "let"}
+Identifier {line: 9, value: "err2"}
+Symbol {line: 9, value: "="}
+Invalid {line: 9, error: Unterminated character literal}
+Keyword {line: 10, value: "let"}
+Identifier {line: 10, value: "emoji"}
+Symbol {line: 10, value: "="}
+Invalid {line: 10, error: Invalid character}
+Symbol {line: 11, value: "}"}
+Invalid {line: 11, error: Invalid character}

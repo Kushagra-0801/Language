@@ -8,4 +8,4 @@ fn main() {
     let n = '\n'
     let err2 = 'abc'
     let emoji = '😊'
-}
+}'

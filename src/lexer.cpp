@@ -29,7 +29,7 @@ class Token {
 };
 
 class Keyword : public Token {
-  public:
+ public:
   int val;
   Keyword(int line, int id) : Token(line) { this->val = id; }
   string to_str() {
@@ -174,38 +174,46 @@ class Lexer {
   }
 
   void lexChar() {
-    if (idx + 2 < file_contents.size()) {
+    if (idx + 1 < file_contents.size()) {
       char ch = file_contents[idx + 1];
-      if (isgraph(ch)) {
-        if (file_contents[idx + 2] == '\'') {
+      if (isgraph(ch) && ch != '\\' && ch != '\'') {
+        if (idx + 2 < file_contents.size() && file_contents[idx + 2] == '\'') {
           tokens.push_back(new Literal(line, file_contents.substr(idx, 3)));
           idx += 3;
         } else {
           tokens.push_back(new Invalid(line, "Unterminated character literal"));
+          while (idx < file_contents.size() && !isspace(file_contents[idx]))
+            idx++;
         }
-        return;
-      } 
-       if (ch == '\\' && idx + 3 < file_contents.size()) {
-        ch = file_contents[idx + 2];
-        if (file_contents[idx + 3] == '\'') {
-          switch (ch) {
+      } else if (ch == '\'') {
+        tokens.push_back(new Invalid(line, "Empty Character Literal"));
+        idx += 2;
+      } else if (ch == '\\') {
+        if (idx + 3 < file_contents.size() && file_contents[idx + 3] == '\'') {
+          char c = file_contents[idx + 2];
+          switch (c) {
             case 'n':
             case 'r':
             case 't':
               tokens.push_back(new Literal(line, file_contents.substr(idx, 4)));
-              idx += 4;
               break;
             default:
               tokens.push_back(new Invalid(line, "Unknown escape code"));
           }
+          idx += 4;
         } else {
           tokens.push_back(new Invalid(line, "Unterminated character literal"));
+          while (idx < file_contents.size() && !isspace(file_contents[idx]))
+            idx++;
         }
       } else {
-        tokens.push_back(new Invalid(line, "Charcater outside normal ascii"));
+        tokens.push_back(new Invalid(line, "Invalid character"));
+        while (idx < file_contents.size() && !isspace(file_contents[idx]))
+          idx++;
       }
     } else {
       tokens.push_back(new Invalid(line, "Unterminated character literal"));
+      while (idx < file_contents.size() && !isspace(file_contents[idx])) idx++;
     }
   }
 
@@ -259,9 +267,7 @@ class Lexer {
       } else if (peek() == ' ') {
         idx += 1;
       } else if (peek() == '#') {
-        line += 1;
-        while (idx < file_contents.size() && file_contents[idx++] != '\n')
-          ;
+        while (idx < file_contents.size() && file_contents[idx] != '\n') idx++;
       } else {
         lexSymbol();
       }
