@@ -5,8 +5,9 @@ values = [integers, floats, true, false, string literals, character literals, ar
 
 symbols = [+, -, *, /, :, ., ;, ::, ==, +=, -=, *=, =, /=, |, ||, &, &&, !, ~, >, <, >=, <=, [], {}, (), ^, %, #]
 
-PROGRAM     :=  IMPORT*
-                ITEM*
+PROGRAM     :=  IMPORT_ITEMS CODE_ITEMS
+
+IMPORT_ITEMS:= e | IMPORT IMPORT_ITEMS
 
 IMPORT      := import PATH ;
 
@@ -14,9 +15,13 @@ PATH        := IDENT (::PATH)*
 
 IDENT       := [a-zA-Z_][a-zA-Z0-9_]*
 
+CODE_ITEMS  := e | ITEM CODE_ITEMS
+
 ITEM        := FUNCTION | STRUCT | MODULE | CONSTANT | ENUM
 
-FUNCTION    := fn IDENT (ARG,*) (-> IDENT)? { STATEMENT* }
+FUNCTION    := fn IDENT (ARGS) (-> PATH)? { STATEMENT* }
+
+ARGS        := e | ARG [, ARGS]
 
 ARG         := IDENT : PATH
 
