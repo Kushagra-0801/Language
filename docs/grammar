@@ -1,21 +1,9 @@
 keyword = [import, fn, struct, let, mod, const, enum]
           [if, else, return, while, for, in, break, continue, print]
 
-values = [integers, floats, true, false, string literals, character literals, arrays]
 
 symbols = [+, -, *, /, :, ., ;, ::, ==, +=, -=, *=, =, /=, |, ||, &, &&, !, ~, >, <, >=, <=, [], {}, (), ^, %, #]
 
-PROGRAM     :=  IMPORT_ITEMS CODE_ITEMS
-
-IMPORT_ITEMS:= e | IMPORT IMPORT_ITEMS
-
-IMPORT      := import PATH ;
-
-PATH        := IDENT (::PATH)*
-
-IDENT       := [a-zA-Z_][a-zA-Z0-9_]*
-
-CODE_ITEMS  := e | ITEM CODE_ITEMS
 
 ITEM        := FUNCTION | STRUCT | MODULE | CONSTANT | ENUM
 
@@ -40,4 +28,57 @@ EXPR        := # expression
 STATEMENT   := BINDING | EXPR ;
 
 BINDING     := let IDENT (: PATH)? = EXPR
+
+
+
+https://mikedevice.github.io/first-follow/
+
+PROGRAM⟶IMPORT_ITEMS CODE_ITEMS
+IMPORT_ITEMS⟶
+IMPORT_ITEMS⟶IMPORT IMPORT_ITEMS
+IMPORT⟶import PATH_I ;
+PATH_I⟶IDENT PATH
+PATH⟶
+PATH⟶:: PATH_I
+IDENT⟶id
+CODE_ITEMS⟶
+CODE_ITEMS⟶ITEM CODE_ITEMS
+ITEM⟶FN
+FN⟶fn IDENT ( ARGS ) { STMTS }
+FN⟶fn IDENT ( ARGS ) -> PATH_I { STMTS }
+ARGS⟶
+ARGS⟶ARG
+ARGS⟶ARG , ARGS
+ARG⟶IDENT : PATH_I
+STMTS⟶
+STMTS⟶STMT STMTS
+STMT⟶BINDING
+STMT⟶EXPR
+BINDING⟶let IDENT = EXPR ;
+BINDING⟶let IDENT : PATH_I = EXPR ;
+EXPR⟶LITERAL
+EXPR⟶UNARY
+EXPR⟶BINARY
+EXPR⟶GROUPING
+LITERAL⟶NUMBER
+LITERAL⟶STRING
+LITERAL⟶CHAR
+LITERAL⟶BOOL
+NUMBER⟶694201080
+STRING⟶"abcd"
+CHAR⟶'x'
+BOOL⟶true
+BOOL⟶false
+UNARY⟶- EXPR
+UNARY⟶! EXPR
+UNARY⟶~ EXPR
+GROUPING⟶( EXPR )
+BINARY⟶EXPR OP EXPR
+OP⟶+
+OP⟶-
+OP⟶/
+OP⟶*
+OP⟶+=
+OP⟶-=
+OP⟶*=
 
