@@ -11,6 +11,7 @@ Team Members (Group 5)
 #include <bits/stdc++.h>
 
 #include "lexer.cpp"
+#include "parser.cpp"
 
 using namespace std;
 
