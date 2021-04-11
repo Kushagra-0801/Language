@@ -23,7 +23,7 @@ ENUM        := enum IDENT { VARIANT* }
 
 VARIANT     := IDENT | IDENT (PATH)
 
-EXPR        := # expression
+EXPR        := # EXPR
 
 STATEMENT   := BINDING | EXPR ;
 
@@ -33,56 +33,120 @@ BINDING     := let IDENT (: PATH)? = EXPR
 
 https://mikedevice.github.io/first-follow/
 
-PROGRAM⟶IMPORT_ITEMS CODE_ITEMS
-IMPORT_ITEMS⟶
-IMPORT_ITEMS⟶IMPORT IMPORT_ITEMS
-IMPORT⟶import PATH_I ;
-PATH_I⟶IDENT PATH
-PATH⟶
-PATH⟶:: PATH_I
-IDENT⟶id
-CODE_ITEMS⟶
-CODE_ITEMS⟶ITEM CODE_ITEMS
-ITEM⟶FUNCTION
-ITEM⟶STRUCT
-ITEM⟶ENUM
-ITEM⟶CONSTANT
-ITEM⟶MODULE
-FUNCTION⟶fn IDENT ( ARGS ) { STMTS }
-FUNCTION⟶fn IDENT ( ARGS ) -> PATH_I { STMTS }
-ARGS⟶
-ARGS⟶ARG
-ARGS⟶ARG , ARGS
-ARG⟶IDENT : PATH_I
-STMTS⟶
-STMTS⟶STMT STMTS
-STMT⟶BINDING
-STMT⟶EXPR
-BINDING⟶let IDENT = EXPR ;
-BINDING⟶let IDENT : PATH_I = EXPR ;
-EXPR⟶LITERAL
-EXPR⟶UNARY
-EXPR⟶BINARY
-EXPR⟶GROUPING
-LITERAL⟶NUMBER
-LITERAL⟶STRING
-LITERAL⟶CHAR
-LITERAL⟶BOOL
-NUMBER⟶694201080
-STRING⟶"abcd"
-CHAR⟶'x'
-BOOL⟶true
-BOOL⟶false
-UNARY⟶- EXPR
-UNARY⟶! EXPR
-UNARY⟶~ EXPR
-GROUPING⟶( EXPR )
-BINARY⟶EXPR OP EXPR
-OP⟶+
-OP⟶-
-OP⟶/
-OP⟶*
-OP⟶+=
-OP⟶-=
-OP⟶*=
+******************************************************************************************
 
+
+PROGRAM::=  IMPORT_ITEMS CODE_ITEMS
+IMPORT_ITEMS::=  
+IMPORT_ITEMS::=  IMPORT IMPORT_ITEMS
+IMPORT::=  import PATH_I ;
+PATH_I::=  IDENT PATH
+PATH::=  
+PATH::=  :: PATH_I
+CODE_ITEMS::=  
+CODE_ITEMS::=  ITEM CODE_ITEMS
+ITEM::= FUNCTION
+ITEM::= STRUCT
+ITEM::= ENUM
+ITEM::= CONSTANT
+ITEM::= MODULE
+MODULE::= mod IDENT { PROGRAM }
+ENUM::= enum IDENT { VARIANTS }
+VARIANTS::= 
+VARIANTS::= VARIANT EXTRA_VARIANT
+EXTRA_VARIANT::= , VARIANTS
+VARIANT::= IDENT | IDENT ( PATH_I )
+STRUCT::= struct IDENT { ARGS }
+CONSTANT::= const IDENT : PATH_I = EXPR ;
+FUNCTION::= fn IDENT ( ARGS ) -> PATH_I { STMTS }
+ARGS::= 
+ARGS::= ARG EXTRA_ARGS
+EXTRA_ARGS::= , ARGS
+EXTRA_ARGS::= 
+ARG::= IDENT : PATH_I
+STMTS::= 
+STMTS::= STMT STMTS
+STMT::= break ;
+STMT::= continue ;
+STMT::= BINDING
+STMT::= print EXPR ;
+STMT::= ASSIGNMENT
+ASSIGNMENT::= STRUCT_ACCESS EQ_OP EXPR ;
+ASSIGNMENT::= ARRAY_ACCESS EQ_OP EXPR ;
+BINDING::= let IDENT : PATH_I = EXPR ;
+STMT::= FOR_LOOP
+STMT::= WHILE_LOOP
+STMT::= IF_ELSE
+STMT::= RETURN
+STMT::= EXPR ;
+FOR_LOOP::= for IDENT in EXPR { STMTS } 
+WHILE_LOOP::= while EXPR { STMTS }
+RETURN::= return EXPR ;
+IF_ELSE::= if EXPR { STMTS } NEXT
+NEXT::= 
+NEXT::= else ELSE_PART
+ELSE_PART::= { STMTS }
+ELSE_PART::= IF_ELSE
+EXPR::= LITERAL
+EXPR::= STRUCT_ACCESS
+EXPR::= ARRAY_ACCESS
+ARRAY_ACCESS::= IDENT [ EXPR ]
+STRUCT_ACCESS::= PATH_I MEMBER_ACCESS 
+MEMBER_ACCESS::= 
+MEMBER_ACCESS::= . IDENT MEMBER_ACCESS
+EXPR::= ( OPERATOR ARG_LIST )
+EXPR::= [ ARG_LIST ]
+OPERATOR::= OP
+OPERATOR::= PATH_I
+ARG_LIST::= 
+ARG_LIST::= EXPR ARG_LIST
+OP::= +
+OP::= -
+OP::= *
+OP::= /
+OP::= ==
+OP::= |
+OP::= ||
+OP::= &
+OP::= &&
+OP::= !
+OP::= ~
+OP::= >
+OP::= <
+OP::= >=
+OP::= <=
+OP::= ^
+OP::= %
+EQ_OP::= =
+EQ_OP::= +=
+EQ_OP::= -=
+EQ_OP::= *=
+EQ_OP::= /=
+EQ_OP::= |=
+EQ_OP::= &=
+EQ_OP::= ^=
+EQ_OP::= %=
+
+
+
+
+
+example
+id == (id+id)*(id | id)
+(== 
+ id (
+    * (
+        + id id
+      ) 
+      (
+        | id id
+      )
+    )
+)
+
+
+
+
+
+// readability >>> writability because code is written once but read nearly 100 times
+so we gav users the challenge to write in prefix
