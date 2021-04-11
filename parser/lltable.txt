@@ -1,0 +1,41 @@
+`$``import`;`IDENT`::`mod`{`}`enum`,`|`(`)`struct`const`:`=`fn`->`break`continue`print`let`for`in`while`return`if`else`LITERAL`[`]`.`+`-`*`/`==`||`&`&&`!`~`>`<`>=`<=`^`%`+=`-=`*=`/=`|=`&=`^=`%=`
+S``S ::= PROGRAM $`S ::= PROGRAM $````````````````````````````````````````````````````````
+PROGRAM``PROGRAM ::= IMPORT_ITEMS CODE_ITEMS`PROGRAM ::= IMPORT_ITEMS CODE_ITEMS````````````````````````````````````````````````````````
+IMPORT_ITEMS``IMPORT_ITEMS ::=`IMPORT_ITEMS ::= IMPORT IMPORT_ITEMS````````````````````````````````````````````````````````
+IMPORT```IMPORT ::= import PATH_I ;````````````````````````````````````````````````````````
+PATH_I`````PATH_I ::= IDENT PATH``````````````````````````````````````````````````````
+PATH``PATH ::=````PATH ::= :: PATH_I`````````````````````````````````````````````````````
+CODE_ITEMS``CODE_ITEMS ::=`````CODE_ITEMS ::= ITEM CODE_ITEMS```CODE_ITEMS ::= ITEM CODE_ITEMS`````CODE_ITEMS ::= ITEM CODE_ITEMS`CODE_ITEMS ::= ITEM CODE_ITEMS```CODE_ITEMS ::= ITEM CODE_ITEMS````````````````````````````````````````
+ITEM```````ITEM ::= MODULE```ITEM ::= ENUM`````ITEM ::= STRUCT`ITEM ::= CONSTANT```ITEM ::= FUNCTION````````````````````````````````````````
+MODULE```````MODULE ::= mod IDENT { PROGRAM }````````````````````````````````````````````````````
+ENUM``````````ENUM ::= enum IDENT { VARIANTS }`````````````````````````````````````````````````
+VARIANTS``VARIANTS ::=```VARIANTS ::= VARIANT EXTRA_VARIANT``````````````````````````````````````````````````````
+EXTRA_VARIANT```````````EXTRA_VARIANT ::= , VARIANTS````````````````````````````````````````````````
+VARIANT`````VARIANT ::= IDENT | IDENT ( PATH_I )``````````````````````````````````````````````````````
+STRUCT```````````````STRUCT ::= struct IDENT { ARGS }````````````````````````````````````````````
+CONSTANT````````````````CONSTANT ::= const IDENT : PATH_I = EXPR ;```````````````````````````````````````````
+FUNCTION```````````````````FUNCTION ::= fn IDENT ( ARGS ) -> PATH_I { STMTS }````````````````````````````````````````
+ARGS``ARGS ::=```ARGS ::= ARG EXTRA_ARGS``````````````````````````````````````````````````````
+EXTRA_ARGS``EXTRA_ARGS ::=`````````EXTRA_ARGS ::= , ARGS````````````````````````````````````````````````
+ARG`````ARG ::= IDENT : PATH_I``````````````````````````````````````````````````````
+STMTS``STMTS ::=```STMTS ::= STMT STMTS````````STMTS ::= STMT STMTS````````STMTS ::= STMT STMTS`STMTS ::= STMT STMTS`STMTS ::= STMT STMTS`STMTS ::= STMT STMTS`STMTS ::= STMT STMTS``STMTS ::= STMT STMTS`STMTS ::= STMT STMTS`STMTS ::= STMT STMTS``STMTS ::= STMT STMTS`STMTS ::= STMT STMTS```````````````````````````
+STMT`````STMT ::= ASSIGNMENT
+STMT ::= EXPR ;````````STMT ::= EXPR ;````````STMT ::= break ;`STMT ::= continue ;`STMT ::= print EXPR ;`STMT ::= BINDING`STMT ::= FOR_LOOP``STMT ::= WHILE_LOOP`STMT ::= RETURN`STMT ::= IF_ELSE``STMT ::= EXPR ;`STMT ::= EXPR ;```````````````````````````
+ASSIGNMENT`````ASSIGNMENT ::= STRUCT_ACCESS EQ_OP EXPR ;
+ASSIGNMENT ::= ARRAY_ACCESS EQ_OP EXPR ;``````````````````````````````````````````````````````
+BINDING````````````````````````BINDING ::= let IDENT : PATH_I = EXPR ;```````````````````````````````````
+FOR_LOOP`````````````````````````FOR_LOOP ::= for IDENT in EXPR { STMTS }``````````````````````````````````
+WHILE_LOOP```````````````````````````WHILE_LOOP ::= while EXPR { STMTS }````````````````````````````````
+RETURN````````````````````````````RETURN ::= return EXPR ;```````````````````````````````
+IF_ELSE`````````````````````````````IF_ELSE ::= if EXPR { STMTS } NEXT``````````````````````````````
+NEXT``NEXT ::=````````````````````````````NEXT ::= else ELSE_PART`````````````````````````````
+ELSE_PART````````ELSE_PART ::= { STMTS }`````````````````````ELSE_PART ::= IF_ELSE``````````````````````````````
+EXPR`````EXPR ::= STRUCT_ACCESS
+EXPR ::= ARRAY_ACCESS````````EXPR ::= ( OPERATOR ARG_LIST )``````````````````EXPR ::= LITERAL`EXPR ::= [ ARG_LIST ]```````````````````````````
+ARRAY_ACCESS`````ARRAY_ACCESS ::= IDENT [ EXPR ]``````````````````````````````````````````````````````
+STRUCT_ACCESS`````STRUCT_ACCESS ::= PATH_I MEMBER_ACCESS``````````````````````````````````````````````````````
+MEMBER_ACCESS``MEMBER_ACCESS ::=````````````````````````````````MEMBER_ACCESS ::= . IDENT MEMBER_ACCESS`````````````````````````
+OPERATOR`````OPERATOR ::= PATH_I```````OPERATOR ::= OP```````````````````````OPERATOR ::= OP`OPERATOR ::= OP`OPERATOR ::= OP`OPERATOR ::= OP`OPERATOR ::= OP`OPERATOR ::= OP`OPERATOR ::= OP`OPERATOR ::= OP`OPERATOR ::= OP`OPERATOR ::= OP`OPERATOR ::= OP`OPERATOR ::= OP`OPERATOR ::= OP`OPERATOR ::= OP`OPERATOR ::= OP`OPERATOR ::= OP`````````
+ARG_LIST``ARG_LIST ::=```ARG_LIST ::= EXPR ARG_LIST````````ARG_LIST ::= EXPR ARG_LIST``````````````````ARG_LIST ::= EXPR ARG_LIST`ARG_LIST ::= EXPR ARG_LIST```````````````````````````
+OP````````````OP ::= |```````````````````````OP ::= +`OP ::= -`OP ::= *`OP ::= /`OP ::= ==`OP ::= ||`OP ::= &`OP ::= &&`OP ::= !`OP ::= ~`OP ::= >`OP ::= <`OP ::= >=`OP ::= <=`OP ::= ^`OP ::= %`````````
+EQ_OP``````````````````EQ_OP ::= =`````````````````````````````````EQ_OP ::= +=`EQ_OP ::= -=`EQ_OP ::= *=`EQ_OP ::= /=`EQ_OP ::= |=`EQ_OP ::= &=`EQ_OP ::= ^=`EQ_OP ::= %=`
