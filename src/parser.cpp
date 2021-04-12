@@ -1,6 +1,16 @@
 #ifndef SHRIMP_PARSER
 #define SHRIMP_PARSER
 
-class Parser {};
+#include "lexer.cpp"
+
+class LlNt {};
+
+class Parser {
+ public:
+  vector<Token> tokens;
+  stack<LlNt> s;
+  Parser() = delete;
+  Parser(vector<Token> &tokens) { this->tokens = tokens; }
+};
 
 #endif
