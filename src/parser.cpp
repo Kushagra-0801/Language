@@ -4,6 +4,7 @@
 #include "lexer.cpp"
 
 class LlNt {};
+#include "../parser/c_table"
 
 class Parser {
  public:
