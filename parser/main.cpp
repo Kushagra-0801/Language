@@ -15,6 +15,32 @@ vector<string> string_splitter(string str, char ch) {
   return v;
 }
 
+// get the type of lexeme from the given token
+string get_type(string str) {
+  string s = "";
+  for(int i=0;i<str.length();i++) {
+    if(str[i] == ' ') {break;}
+    else {s += str[i];}
+  }
+  return s;
+}
+
+// get the lexeme from the given token
+string get_lexeme(string str) {
+  string s = "";
+  int coloncount = 0, icomcount = 0;
+  for(int i=0;i<str.length()-1;i++) {
+    if(str[i] == ':') {coloncount++;}
+    else {
+      if(coloncount == 2) {
+         s += str[i];
+      }
+    }
+  }
+  s = s.substr(1);
+  return s;
+}
+
 
 int main() {
   vector<string> terminals, nonterminals;
