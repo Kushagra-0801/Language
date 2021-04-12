@@ -42,6 +42,12 @@ string get_lexeme(string str) {
 }
 
 
+string get_rhs(string str) {
+  int pos = str.find("::= ");
+  return str.substr(pos+1);
+}
+
+
 int main() {
   vector<string> terminals, nonterminals;
   
@@ -72,4 +78,40 @@ int main() {
     n++;
   }
   InputFile.close();
+
+
+  // get vector of lexemes
+  vector<string> lexemes;
+  ifstream InputFile("");
+  while(getline(InputFile, str)) {
+    lexemes.push_back(get_lexeme(str));
+  }
+  
+  // LL1 parsing
+  stack<string> llstack;
+  llstack.push("PROGRAM");
+  int i = 0;
+  
+  while(i < lexemes.size()) {
+    string lex = lexemes[i];
+    string nonter = llstack.top();
+    string rule = parser_table[nonter][lex];
+
+    string rhs = get_rhs(rule);
+
+    // compare with epsilon
+    if(rhs == ) {
+      llstack.pop();
+      i++;
+    }
+    // if not epsilon
+    else {
+      llstack.pop();
+      // dunno what shit happens from here
+    }
+  }
+
+
+
+
 }
