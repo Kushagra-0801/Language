@@ -40,6 +40,6 @@ const fs = require('fs');
 
     fs.writeFileSync('../parser/lltable.txt', get_table);
     console.log("Parse table obtained, check the file lltable.txt");
-    await browser.close();
+    //await browser.close();
     
 })();
