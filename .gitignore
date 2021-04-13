@@ -55,3 +55,9 @@ target/*
 *.code-workspace
 
 # End of https://www.toptal.com/developers/gitignore/api/c++,vscode
+
+generator/node_modules/*
+
+package-lock.json
+
+package.json

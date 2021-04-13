@@ -1,7 +1,6 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-
 using namespace std;
 
 const unordered_map<string, unordered_map<string, vector<string>>> table_map{
@@ -90,7 +89,7 @@ const unordered_map<string, unordered_map<string, vector<string>>> table_map{
      {
          {"$",
           {
-              "EPS",
+              "ε",
           }},
          {"import",
           {
@@ -99,27 +98,27 @@ const unordered_map<string, unordered_map<string, vector<string>>> table_map{
           }},
          {"mod",
           {
-              "EPS",
+              "ε",
           }},
          {"}",
           {
-              "EPS",
+              "ε",
           }},
          {"enum",
           {
-              "EPS",
+              "ε",
           }},
          {"struct",
           {
-              "EPS",
+              "ε",
           }},
          {"const",
           {
-              "EPS",
+              "ε",
           }},
          {"fn",
           {
-              "EPS",
+              "ε",
           }},
      }},
     {"IMPORT",
@@ -143,11 +142,11 @@ const unordered_map<string, unordered_map<string, vector<string>>> table_map{
      {
          {";",
           {
-              "EPS",
+              "ε",
           }},
          {"IDENT",
           {
-              "EPS",
+              "ε",
           }},
          {"::",
           {
@@ -156,82 +155,82 @@ const unordered_map<string, unordered_map<string, vector<string>>> table_map{
           }},
          {"{",
           {
-              "EPS",
+              "ε",
           }},
          {"}",
           {
-              "EPS",
+              "ε",
           }},
          {",",
           {
-              "EPS",
+              "ε",
           }},
          {"(",
           {
-              "EPS",
+              "ε",
           }},
          {")",
           {
-              "EPS",
+              "ε",
           }},
          {"=",
           {
-              "EPS",
+              "ε",
           }},
          {"LITERAL",
           {
-              "EPS",
+              "ε",
           }},
          {"[",
           {
-              "EPS",
+              "ε",
           }},
          {"]",
           {
-              "EPS",
+              "ε",
           }},
          {".",
           {
-              "EPS",
+              "ε",
           }},
          {"+=",
           {
-              "EPS",
+              "ε",
           }},
          {"-=",
           {
-              "EPS",
+              "ε",
           }},
          {"*=",
           {
-              "EPS",
+              "ε",
           }},
          {"/=",
           {
-              "EPS",
+              "ε",
           }},
          {"|=",
           {
-              "EPS",
+              "ε",
           }},
          {"&=",
           {
-              "EPS",
+              "ε",
           }},
          {"^=",
           {
-              "EPS",
+              "ε",
           }},
          {"%=",
           {
-              "EPS",
+              "ε",
           }},
      }},
     {"CODE_ITEMS",
      {
          {"$",
           {
-              "EPS",
+              "ε",
           }},
          {"mod",
           {
@@ -240,7 +239,7 @@ const unordered_map<string, unordered_map<string, vector<string>>> table_map{
           }},
          {"}",
           {
-              "EPS",
+              "ε",
           }},
          {"enum",
           {
@@ -317,14 +316,14 @@ const unordered_map<string, unordered_map<string, vector<string>>> table_map{
           }},
          {"}",
           {
-              "EPS",
+              "ε",
           }},
      }},
     {"EXTRA_VARIANT",
      {
          {"}",
           {
-              "EPS",
+              "ε",
           }},
          {",",
           {
@@ -344,11 +343,11 @@ const unordered_map<string, unordered_map<string, vector<string>>> table_map{
      {
          {"}",
           {
-              "EPS",
+              "ε",
           }},
          {",",
           {
-              "EPS",
+              "ε",
           }},
          {"(",
           {
@@ -406,18 +405,18 @@ const unordered_map<string, unordered_map<string, vector<string>>> table_map{
           }},
          {"}",
           {
-              "EPS",
+              "ε",
           }},
          {")",
           {
-              "EPS",
+              "ε",
           }},
      }},
     {"EXTRA_ARGS",
      {
          {"}",
           {
-              "EPS",
+              "ε",
           }},
          {",",
           {
@@ -426,7 +425,7 @@ const unordered_map<string, unordered_map<string, vector<string>>> table_map{
           }},
          {")",
           {
-              "EPS",
+              "ε",
           }},
      }},
     {"ARG",
@@ -447,7 +446,7 @@ const unordered_map<string, unordered_map<string, vector<string>>> table_map{
           }},
          {"}",
           {
-              "EPS",
+              "ε",
           }},
          {"break",
           {
@@ -605,43 +604,43 @@ const unordered_map<string, unordered_map<string, vector<string>>> table_map{
      {
          {"IDENT",
           {
-              "EPS",
+              "ε",
           }},
          {"}",
           {
-              "EPS",
+              "ε",
           }},
          {"break",
           {
-              "EPS",
+              "ε",
           }},
          {"continue",
           {
-              "EPS",
+              "ε",
           }},
          {"print",
           {
-              "EPS",
+              "ε",
           }},
          {"let",
           {
-              "EPS",
+              "ε",
           }},
          {"for",
           {
-              "EPS",
+              "ε",
           }},
          {"while",
           {
-              "EPS",
+              "ε",
           }},
          {"return",
           {
-              "EPS",
+              "ε",
           }},
          {"if",
           {
-              "EPS",
+              "ε",
           }},
          {"else",
           {
@@ -773,39 +772,39 @@ const unordered_map<string, unordered_map<string, vector<string>>> table_map{
      {
          {";",
           {
-              "EPS",
+              "ε",
           }},
          {"IDENT",
           {
-              "EPS",
+              "ε",
           }},
          {"{",
           {
-              "EPS",
+              "ε",
           }},
          {"(",
           {
-              "EPS",
+              "ε",
           }},
          {")",
           {
-              "EPS",
+              "ε",
           }},
          {"=",
           {
-              "EPS",
+              "ε",
           }},
          {"LITERAL",
           {
-              "EPS",
+              "ε",
           }},
          {"[",
           {
-              "EPS",
+              "ε",
           }},
          {"]",
           {
-              "EPS",
+              "ε",
           }},
          {".",
           {
@@ -815,35 +814,35 @@ const unordered_map<string, unordered_map<string, vector<string>>> table_map{
           }},
          {"+=",
           {
-              "EPS",
+              "ε",
           }},
          {"-=",
           {
-              "EPS",
+              "ε",
           }},
          {"*=",
           {
-              "EPS",
+              "ε",
           }},
          {"/=",
           {
-              "EPS",
+              "ε",
           }},
          {"|=",
           {
-              "EPS",
+              "ε",
           }},
          {"&=",
           {
-              "EPS",
+              "ε",
           }},
          {"^=",
           {
-              "EPS",
+              "ε",
           }},
          {"%=",
           {
-              "EPS",
+              "ε",
           }},
      }},
     {"OPERATOR",
@@ -935,7 +934,7 @@ const unordered_map<string, unordered_map<string, vector<string>>> table_map{
           }},
          {")",
           {
-              "EPS",
+              "ε",
           }},
          {"LITERAL",
           {
@@ -949,7 +948,7 @@ const unordered_map<string, unordered_map<string, vector<string>>> table_map{
           }},
          {"]",
           {
-              "EPS",
+              "ε",
           }},
      }},
     {"OP",

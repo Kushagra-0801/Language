@@ -110,6 +110,17 @@ class Symbol : public Token {
   }
 };
 
+class Eof : public Token {
+ public:
+  Eof(int line) : Token(line) {}
+  string to_str() {
+    stringstream s;
+    s << "Literal {line: " << line << ", value: " << "EOF" << "}";
+    return s.str();
+  }
+  string normalize() { return "$"; }
+};
+
 class Invalid : public Token {
  public:
   string val;
@@ -300,6 +311,7 @@ class Lexer {
         lexSymbol();
       }
     }
+    tokens.push_back(new Eof(this->line));
   }
 };
 

@@ -66,6 +66,7 @@ with open('../src/c_table.hpp', 'w+') as f:
     f.write(f"""#include <string>
 #include <unordered_map>
 #include <vector>
+using namespace std;
 
 const unordered_map<string, unordered_map<string, vector<string>>>table_map{s};
 """)
