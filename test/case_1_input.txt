@@ -20,7 +20,8 @@ fn div(a: i32, b: i32) -> IntOrNothing {
 }
 
 fn array(a: Array::i32) -> Void {
-    a.3 = 5;
+    let i = 3;
+    a.i = 5;
 }
 
 fn main() -> Void {
@@ -28,7 +29,7 @@ fn main() -> Void {
     let b = 5;
     let res = (div a b);
     let arr = [4 5 6 7 8 9];
-    (array arr);
+    let _ = (array arr);
     # arr = [4, 5, 6, 5, 8, 9]
     print res;
 }
