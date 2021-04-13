@@ -548,8 +548,6 @@ const unordered_map<string, unordered_map<string, vector<string>>> table_map{
           {
               "let",
               "IDENT",
-              ":",
-              "PATH_I",
               "=",
               "EXPR",
               ";",
