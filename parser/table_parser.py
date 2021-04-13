@@ -32,17 +32,40 @@ for (nonterminal,
 
 table_map = {k: v for k, v in table_map.items()}
 
-from pprint import pformat
+# from pprint import pformat
 
-s = pformat(table_map, sort_dicts=False, width=150)
-s = s.replace("'", '"')
+# s = pformat(table_map, sort_dicts=False, width=150)
+# s = s.replace("'", '"')
 
-import re
+# import re
 
-s = re.sub(r'([^"])\["', r'\1{"', s)
-s = re.sub(r'"\]([^"])', r'"}\1', s)
+# s = re.sub(r'([^"])\["', r'\1{"', s)
+# s = re.sub(r'"\]([^"])', r'"}\1', s)
 
-with open('c_table', 'w+') as f:
-    f.write(
-        f"const unordered_map<string, unordered_map<string, vector<string>>table_map = {s};"
-    )
+
+def vec(v):
+    s = ""
+    for i in v:
+        s += f'"{i}", '
+    return s
+
+
+def mid_lvl(v):
+    s = ""
+    for k, v in v.items():
+        s += f'\t\t{{"{k}", {{ {vec(v)} }}}},\n'
+    return s
+
+
+s = "{\n"
+for k, v in table_map.items():
+    s += f'\t{{"{k}", {{{mid_lvl(v)}}} }},\n'
+s += "\n}"
+
+with open('../src/c_table.hpp', 'w+') as f:
+    f.write(f"""#include <string>
+#include <unordered_map>
+#include <vector>
+
+const unordered_map<string, unordered_map<string, vector<string>>>table_map{s};
+""")

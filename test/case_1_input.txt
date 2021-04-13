@@ -1,6 +1,6 @@
 # sample program
 import math;
-import std::io::print;
+import std::io::println;
 
 struct Int {
     num: i32
@@ -20,7 +20,7 @@ fn div(a: i32, b: i32) -> IntOrNothing {
 }
 
 fn array(a: Array::i32) -> Void {
-    a[3] = 5;
+    a.3 = 5;
 }
 
 fn main() -> Void {

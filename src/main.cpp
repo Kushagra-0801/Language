@@ -35,8 +35,10 @@ int main(int argc, char *argv[]) {
   Lexer lexer(contents);
 
   lexer.lex();
-  for (auto token : lexer.tokens) {
-    cout << token->to_str() << endl;
-  }
+  // for (auto token : lexer.tokens) {
+  //   cout << token->to_str() << endl;
+  // }
+  Parser parser(lexer.tokens);
+  parser.parse();
   return 0;
 }

@@ -30,7 +30,8 @@ const unordered_map<string, int> SYMBOLS{
     {"=", 12}, {"/=", 13}, {"|", 14},  {"||", 15}, {"&", 16},  {"&&", 17},
     {"!", 18}, {"~", 19},  {">", 20},  {"<", 21},  {">=", 22}, {"<=", 23},
     {"[", 24}, {"]", 25},  {"{", 26},  {"}", 27},  {"(", 28},  {")", 29},
-    {"^", 30}, {"%", 31},  {"|=", 32}, {"&=", 33}, {"^=", 34}, {"%=", 35}};
+    {"^", 30}, {"%", 31},  {"|=", 32}, {"&=", 33}, {"^=", 34}, {"%=", 35},
+    {",", 36}, {"->", 37}};
 
 class Token {
  public:
@@ -38,6 +39,7 @@ class Token {
   Token() = delete;
   Token(int line) { this->line = line; }
   virtual string to_str() { return "Token {line: something}"; }
+  virtual string normalize() { return "Token"; }
 };
 
 class Keyword : public Token {
@@ -50,6 +52,7 @@ class Keyword : public Token {
     s << "Keyword {line: " << line << ", value: \"" << v << "\"}";
     return s.str();
   }
+  string normalize() { return REVERSE_KEYWORD[val]; }
 };
 
 class Identifier : public Token {
@@ -62,6 +65,7 @@ class Identifier : public Token {
     s << "Identifier {line: " << line << ", value: \"" << val << "\"}";
     return s.str();
   }
+  string normalize() { return "IDENT"; }
 };
 
 class Literal : public Token {
@@ -74,6 +78,7 @@ class Literal : public Token {
     s << "Literal {line: " << line << ", value: " << val << "}";
     return s.str();
   }
+  string normalize() { return "LITERAL"; }
 };
 
 class Symbol : public Token {
@@ -93,6 +98,16 @@ class Symbol : public Token {
     s << "Symbol {line: " << line << ", value: \"" << v << "\"}";
     return s.str();
   };
+  string normalize() {
+    string v;
+    for (auto &[s, i] : SYMBOLS) {
+      if (val == i) {
+        v = s;
+        break;
+      }
+    }
+    return v;
+  }
 };
 
 class Invalid : public Token {
@@ -105,6 +120,7 @@ class Invalid : public Token {
     s << "Invalid {line: " << line << ", error: " << val << "}";
     return s.str();
   }
+  string normalize() { return "INVALID"; }
 };
 
 class Lexer {
