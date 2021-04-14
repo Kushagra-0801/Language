@@ -55,8 +55,6 @@ class Parser {
 
       auto nt = s.top();
       s.pop();
-      // cout << nt.second << " : " << terminal << endl;
-
       if (auto t = table_map.find(nt.second); t != table_map.end()) {
         if (auto rule = t->second.find(terminal); rule != t->second.end()) {
           if (rule->second[0] == "SYNCH") {
@@ -82,9 +80,7 @@ class Parser {
         if (terminal == "IDENT") {
           Identifier *ident = dynamic_cast<Identifier *>(tokens[i]);
           my_print(nt.first, terminal + ": " + ident->val);
-        }
-
-        else if (terminal == "LITERAL") {
+        } else if (terminal == "LITERAL") {
           Literal *literal = dynamic_cast<Literal *>(tokens[i]);
           my_print(nt.first, terminal + ": " + literal->val);
         } else {
@@ -92,7 +88,8 @@ class Parser {
         }
         i++;
       } else {
-        err.push_back({tokens[i]->line, "Expected token: "+nt.second+" Found: "+terminal});
+        err.push_back({tokens[i]->line,
+                       "Expected token: " + nt.second + " Found: " + terminal});
       }
     }
     return err;

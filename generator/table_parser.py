@@ -1,7 +1,6 @@
 import csv
 from itertools import product
 from typing import DefaultDict
-import pandas as pd
 
 EPS = 'ε'
 
@@ -36,7 +35,7 @@ follows_dict = {}
 follows_file = open("follows.txt", "r")
 for line in follows_file:
     arr = line.split("`")
-    if(arr[0]=='Nonterminal'):
+    if (arr[0] == 'Nonterminal'):
         continue
     nt = arr[0]
     arr.pop(0)

@@ -15,12 +15,12 @@ fn div(a: i32, b: i32) -> IntOrNothing {
     if  (== b 0) {
         return IntOrNothing::Nothing;
     } else {
-        return  (/ a  b) 
+        return  (/ a  b);
     }
 }
 
 fn array(a: Array::i32) -> Void {
-    let i = 3
+    let i = 3;
     a.i = 5;
 }
 

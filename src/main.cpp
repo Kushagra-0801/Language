@@ -15,6 +15,15 @@ Team Members (Group 5)
 
 using namespace std;
 
+const char *EXT = ".🦐";
+
+int ends_with(const char *str, const char *suffix) {
+  size_t lenstr = strlen(str);
+  size_t lensuffix = strlen(suffix);
+  if (lensuffix > lenstr) return 0;
+  return strncmp(str + lenstr - lensuffix, suffix, lensuffix) == 0;
+}
+
 int main(int argc, char *argv[]) {
   if (argc < 2) {
     cerr << "No input files" << endl;
@@ -23,7 +32,10 @@ int main(int argc, char *argv[]) {
     cerr << "Multiple files not supported" << endl;
     return 2;
   }
-
+  if (!ends_with(argv[1], EXT)) {
+    cerr << "File must have shrimp extension: " << EXT << endl;
+    return 1;
+  }
   ifstream codefile(argv[1]);
   string contents;
   string line;
