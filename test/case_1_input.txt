@@ -20,7 +20,7 @@ fn div(a: i32, b: i32) -> IntOrNothing {
 }
 
 fn array(a: Array::i32) -> Void {
-    let i = 3;
+    let i = 3
     a.i = 5;
 }
 

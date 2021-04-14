@@ -92,8 +92,7 @@ class Parser {
         }
         i++;
       } else {
-        err.push_back({tokens[i]->line, "Parser crashed"});
-        exit(0);
+        err.push_back({tokens[i]->line, "Expected token: "+nt.second+" Found: "+terminal});
       }
     }
     return err;
