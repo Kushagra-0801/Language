@@ -1,6 +1,7 @@
 import csv
 from itertools import product
 from typing import DefaultDict
+import pandas as pd
 
 EPS = 'ε'
 
@@ -31,6 +32,26 @@ for (nonterminal,
         table_map[nonterminal][terminal] = parse_transformation(transformation)
 
 table_map = {k: v for k, v in table_map.items()}
+follows_dict = {}
+follows_file = open("follows.txt", "r")
+for line in follows_file:
+    arr = line.split("`")
+    if(arr[0]=='Nonterminal'):
+        continue
+    nt = arr[0]
+    arr.pop(0)
+    arr.pop(-1)
+    follows_dict[nt] = arr
+# print('printing dict')
+# for li in follows_dict.values():
+#     print(li)
+
+for nt in follows_dict:
+    for t in follows_dict[nt]:
+        try:
+            table_map[nt][t]
+        except KeyError:
+            table_map[nt][t] = ["SYNCH"]
 
 # from pprint import pformat
 
