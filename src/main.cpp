@@ -14,9 +14,12 @@ Team Members (Group 5)
 #include "parser.cpp"
 
 using namespace std;
-
-const char *EXT = ".🦐";
-
+#ifdef _WIN32
+const char* EXT = ".shrimp"
+#else
+const char* EXT = ".🦐"
+#endif
+;
 int ends_with(const char *str, const char *suffix) {
   size_t lenstr = strlen(str);
   size_t lensuffix = strlen(suffix);

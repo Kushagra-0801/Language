@@ -1,0 +1,11 @@
+# sample program
+import math;
+
+fn main() -> Void {
+    let c = 't';
+    let err1 = '\r';
+    let t = '\t';
+    let n = '\n';
+    let err2 = 'a';
+    let emoji = 'o';
+}'
