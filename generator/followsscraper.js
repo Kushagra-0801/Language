@@ -40,18 +40,11 @@ const fs = require('fs');
                 else if (j == 3) {
                   let temp = "";
                   let followsset = rowelems[j].innerText.split(", ");
-                  if(followsset.length > 1) {
-                    for(let k=0;k<followsset.length;k++) {
-                      let felem = followsset[k];
-                      if(felem.length == 0) {
-                        temp = temp.concat(",`");
-                      }
-                      else {
-                        temp = temp.concat(felem+"`");
-                      }
-                    }
-                    rowdata = rowdata.concat(temp+"`");
+                  for(let k=0;k<followsset.length;k++) {
+                    let felem = followsset[k];
+                    temp = temp.concat(felem+"`");
                   }
+                  rowdata = rowdata.concat(temp);
                 }
             }
             retstr = retstr.concat(rowdata+"\n");
