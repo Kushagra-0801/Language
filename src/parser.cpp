@@ -3,10 +3,13 @@
 
 #include "lexer.cpp"
 class ParserError {
-  public:
+ public:
   int line;
   string val;
-  ParserError(int line, string val)  {this->line = line; this->val = val;}
+  ParserError(int line, string val) {
+    this->line = line;
+    this->val = val;
+  }
   string to_str() {
     stringstream s;
     s << "Error {line: " << line << ", value: " << val << "}";
@@ -14,18 +17,20 @@ class ParserError {
   }
 };
 #include "c_table.hpp"
+const string EPS = "ε";
 
-void my_print(int n, string s){
-  for(int i=0;i<n;i++)
-    cout<<"  ";
-  cout<<s<<endl;
+void my_print(int n, string s) {
+  for (int i = 0; i < n; i++) {
+    cout << "  ";
+  }
+  cout << s << endl;
 }
 
 class Parser {
  public:
   vector<Token *> tokens;
   size_t i = 0;
-  stack<pair<int,string>> s;
+  stack<pair<int, string>> s;
   Parser() = delete;
   Parser(vector<Token *> &tokens) {
     this->tokens = tokens;
@@ -34,60 +39,59 @@ class Parser {
   vector<ParserError> parse() {
     vector<ParserError> err;
     while (!s.empty()) {
-      
-      if(i>=tokens.size()){
-        err.push_back({tokens[tokens.size()-1]->line, "expected tokens, found none"});
+      if (i >= tokens.size()) {
+        err.push_back(
+            {tokens[tokens.size() - 1]->line, "expected tokens, found none"});
         break;
       }
 
       auto terminal = tokens[i]->normalize();
-      if(terminal=="INVALID"){
-        err.push_back({tokens[i]->line, "Lexer error: INVALID TOKEN, skipping input"});
+      if (terminal == "INVALID") {
+        err.push_back(
+            {tokens[i]->line, "Lexer error: INVALID TOKEN, skipping input"});
         i++;
         continue;
       }
 
       auto nt = s.top();
       s.pop();
-      //cout << nt.second << " : " << terminal << endl;
+      // cout << nt.second << " : " << terminal << endl;
 
       if (auto t = table_map.find(nt.second); t != table_map.end()) {
         if (auto rule = t->second.find(terminal); rule != t->second.end()) {
-          if(rule->second[0]=="SYNCH"){
-            err.push_back({tokens[i]->line, "Production skipped"}); 
+          if (rule->second[0] == "SYNCH") {
+            err.push_back({tokens[i]->line, "Production skipped"});
             continue;
-          }
-          else{
+          } else {
+            my_print(nt.first, nt.second);
             for (auto j = rule->second.crbegin(); j != rule->second.crend();
-                j++) {
-              s.push({nt.first+1, *j});
+                 j++) {
+              s.push({nt.first + 1, *j});
             }
           }
         } else {
-          err.push_back({tokens[i]->line, "Parser rule not found, skipping token"});
+          err.push_back(
+              {tokens[i]->line, "Parser rule not found, skipping token"});
           i++;
           continue;
         }
-      } else if (nt.second == "EPS") {
+      } else if (nt.second == EPS) {
       } else if (nt.second == "$") {
-        cout << "$ : " << i << " " << tokens.size() << endl;
         my_print(nt.first, "$");
       } else if (terminal == nt.second) {
-        if(terminal=="IDENT"){
-          Identifier* ident = dynamic_cast<Identifier*>(tokens[i]);
-          my_print(nt.first, terminal+": "+ident->val);
+        if (terminal == "IDENT") {
+          Identifier *ident = dynamic_cast<Identifier *>(tokens[i]);
+          my_print(nt.first, terminal + ": " + ident->val);
         }
-        
-        else if(terminal=="LITERAL"){
-          Literal* literal = dynamic_cast<Literal*>(tokens[i]);
-          my_print(nt.first, terminal+": "+literal->val);
-        }
-        else {
+
+        else if (terminal == "LITERAL") {
+          Literal *literal = dynamic_cast<Literal *>(tokens[i]);
+          my_print(nt.first, terminal + ": " + literal->val);
+        } else {
           my_print(nt.first, terminal);
         }
         i++;
-      }
-      else{
+      } else {
         err.push_back({tokens[i]->line, "Parser crashed"});
         exit(0);
       }

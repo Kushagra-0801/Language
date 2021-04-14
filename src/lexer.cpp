@@ -115,7 +115,7 @@ class Eof : public Token {
   Eof(int line) : Token(line) {}
   string to_str() {
     stringstream s;
-    s << "Literal {line: " << line << ", value: " << "EOF" << "}";
+    s << "Eof {line: " << line << ", value: $}";
     return s.str();
   }
   string normalize() { return "$"; }
