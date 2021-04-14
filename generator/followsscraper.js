@@ -16,11 +16,15 @@ const fs = require('fs');
         document.querySelector("[id='grammar']").value = gram;
         document.querySelector("div[class='content'] > a").click();
 
-        let table = document.querySelectorAll("table[class='pure-table'] > tbody > tr > td")[1].querySelector("table");
+        let table = document.querySelectorAll("table[class='pure-table'] > tbody > tr > td")[0].querySelector("table");
         let header = table.querySelectorAll("thead > tr > th"), headerstr="";
 
         let hstr = "";
-        for(let i=0;i<header.length;i++){hstr = hstr.concat(header[i].innerText+"`");}
+        for(let i=0;i<header.length;i++) {
+          if(i == 0 || i == 3) {
+            hstr = hstr.concat(header[i].innerText+"`");
+          }
+        }
         retstr = retstr.concat(hstr+"\n");
 
 
@@ -30,7 +34,25 @@ const fs = require('fs');
             let rowelems = footer[i].querySelectorAll("td");
 
             for(let j=0;j<rowelems.length;j++) {
-                rowdata = rowdata.concat(rowelems[j].innerText+"`");
+                if(j == 0) {
+                  rowdata = rowdata.concat(rowelems[j].innerText+"`");
+                }
+                else if (j == 3) {
+                  let temp = "";
+                  let followsset = rowelems[j].innerText.split(", ");
+                  if(followsset.length > 1) {
+                    for(let k=0;k<followsset.length;k++) {
+                      let felem = followsset[k];
+                      if(felem.length == 0) {
+                        temp = temp.concat(",`");
+                      }
+                      else {
+                        temp = temp.concat(felem+"`");
+                      }
+                    }
+                    rowdata = rowdata.concat(temp+"`");
+                  }
+                }
             }
             retstr = retstr.concat(rowdata+"\n");
         }
@@ -38,8 +60,7 @@ const fs = require('fs');
 
     }, gram);
 
-    fs.writeFileSync('./lltable.txt', get_table);
-    console.log("Parse table obtained, check the file lltable.txt");
+    fs.writeFileSync('./follows.txt', get_table);
+    console.log("Follows table obtained, check the file follows.txt");
     await browser.close();
-    
 })();
