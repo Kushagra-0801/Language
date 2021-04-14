@@ -39,6 +39,11 @@ int main(int argc, char *argv[]) {
   //   cout << token->to_str() << endl;
   // }
   Parser parser(lexer.tokens);
-  parser.parse();
+  auto errors = parser.parse();
+  cout<<"*******Errors*********\n";
+  for(auto val: errors){
+    
+    cout<<val.to_str()<<endl;
+  }
   return 0;
 }

@@ -1,3 +1,5 @@
+#ifndef SHRIMP_TABLE
+#define SHRIMP_TABLE
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -1061,3 +1063,4 @@ const unordered_map<string, unordered_map<string, vector<string>>> table_map{
      }},
 
 };
+#endif
